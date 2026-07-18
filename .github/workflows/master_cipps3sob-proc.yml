@@ -1,0 +1,26 @@
+name: Deploy PowerShell project to Azure Function App (Offload Processor)
+
+on:
+  [push]
+
+# Offload/processor function app for CIPP Function Offloading.
+# Mirrors master_cipps3sob.yml so both apps deploy in lockstep on every fork update.
+env:
+  AZURE_FUNCTIONAPP_NAME: 'cipps3sob-proc'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_PROC }}
