@@ -3,6 +3,7 @@ rules:
   - base: master
     upstream: KelvinTegelaar:master
     mergeMethod: merge
+    autoMerge: true
   - base: dev
     upstream: KelvinTegelaar:dev
     mergeMethod: none
